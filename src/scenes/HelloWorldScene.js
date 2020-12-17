@@ -1,39 +1,39 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 
-export default class HelloWorldScene extends Phaser.Scene
-{
-	constructor()
-	{
-		super('hello-world')
-	}
+export default class HelloWorldScene extends Phaser.Scene {
+  /** @type {Phaser.GameObjects.Image} */
+  ship;
 
-	preload()
-    {
-        this.load.setBaseURL('http://labs.phaser.io')
+  /** @type {Phaser.Types.Input.Keyboard.CursorKeys} */
+  cursors;
 
-        this.load.image('sky', 'assets/skies/space3.png')
-        this.load.image('logo', 'assets/sprites/phaser3-logo.png')
-        this.load.image('red', 'assets/particles/red.png')
+  init() {
+    this.cursors = this.input.keyboard.createCursorKeys();
+  }
+
+  preload() {
+    this.load.image('ship', 'images/playerShip2_red.png');
+    this.load.image('smoke', 'images/whitePuff00.png');
+  }
+
+  create() {
+    const { width, height } = this.scale;
+
+    this.ship = this.add.image(width * 0.5, height * 0.5, 'ship');
+  }
+
+  update() {
+    const speed = 8;
+    if (this.cursors.left.isDown) {
+      this.ship.x -= speed;
+    } else if (this.cursors.right.isDown) {
+      this.ship.x += speed;
     }
 
-    create()
-    {
-        this.add.image(400, 300, 'sky')
-
-        const particles = this.add.particles('red')
-
-        const emitter = particles.createEmitter({
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
-        })
-
-        const logo = this.physics.add.image(400, 100, 'logo')
-
-        logo.setVelocity(100, 200)
-        logo.setBounce(1, 1)
-        logo.setCollideWorldBounds(true)
-
-        emitter.startFollow(logo)
+    if (this.cursors.up.isDown) {
+      this.ship.y -= speed;
+    } else if (this.cursors.down.isDown) {
+      this.ship.y += speed;
     }
+  }
 }

@@ -7,6 +7,9 @@ export default class HelloWorldScene extends Phaser.Scene {
   /** @type {Phaser.Types.Input.Keyboard.CursorKeys} */
   cursors;
 
+  /** @type {Phaser.GameObjects.Particles.ParticleEmitter} */
+  exhaustEmitter;
+
   init() {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -19,14 +22,24 @@ export default class HelloWorldScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
 
-    const particles = this.add.particles('smoke')
+    const particles = this.add.particles('smoke');
     this.ship = this.add.image(width * 0.5, height * 0.5, 'ship');
 
-    particles.createEmitter({
+    const direction = new Phaser.Math.Vector2(0, 0);
+    direction.setToPolar(this.ship.rotation, 1);
+
+    const dx = -direction.x;
+    const dy = -direction.y;
+
+    const ox = dx * this.ship.width * 0.55;
+    const oy = dy * this.ship.width * 0.55;
+
+    this.exhaustEmitter = particles.createEmitter({
       quantity: 10,
-      speedY: { min: 20, max: 50 },
-      speedX: { min: -10, max: 10 },
-      accelerationY: 1000,
+      speedY: { min: 20 * dy, max: 50 * dy },
+      speedX: { min: -10 * dx, max: 10 * dx },
+      accelerationX: 1000 * dx,
+      accelerationY: 1000 * dy,
       lifespan: { min: 100, max: 300 },
       alpha: { start: 0.5, end: 0, ease: 'Sine.easeIn' },
       scale: { start: 0.065, end: 0.002 },
@@ -35,23 +48,45 @@ export default class HelloWorldScene extends Phaser.Scene {
       blendMode: 'ADD',
       frequency: 15,
       follow: this.ship,
-      followOffset: { y: this.ship.height * 0.5},
-      tint: 0xed7e77
-    })
+      followOffset: { x: ox, y: oy },
+      tint: 0xed7e77,
+    });
   }
 
   update() {
     const speed = 8;
     if (this.cursors.left.isDown) {
-      this.ship.x -= speed;
+      this.ship.angle -= speed;
     } else if (this.cursors.right.isDown) {
-      this.ship.x += speed;
+      this.ship.angle += speed;
     }
 
+    const direction = new Phaser.Math.Vector2(0, 0);
+    direction.setToPolar(this.ship.rotation, 1);
+
+    const dx = direction.x;
+    const dy = direction.y;
+
     if (this.cursors.up.isDown) {
-      this.ship.y -= speed;
-    } else if (this.cursors.down.isDown) {
-      this.ship.y += speed;
+      this.ship.x += speed * dx;
+      this.ship.y += speed * dy;
+    }
+
+    if (this.exhaustEmitter) {
+      const ox = -dx * this.ship.width * 0.55;
+      const oy = -dy * this.ship.width * 0.55;
+
+      const ddx = -dx;
+      const ddy = -dy;
+
+      this.exhaustEmitter.setSpeedX({ min: -10 * ddx, max: 10 * ddx });
+      this.exhaustEmitter.setSpeedY({ min: 20 * ddy, max: 50 * ddy });
+
+      this.exhaustEmitter.accelerationX.propertyValue = 1000 * ddx;
+      this.exhaustEmitter.accelerationY.propertyValue = 1000 * ddy;
+
+      this.exhaustEmitter.followOffset.x = ox;
+      this.exhaustEmitter.followOffset.y = oy;
     }
   }
 }

@@ -15,13 +15,16 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image('back', 'images/darkPurple.png');
+    this.load.image('earth', 'images/earth.png');
     this.load.image('ship', 'images/playerShip2_red.png');
     this.load.image('smoke', 'images/whitePuff00.png');
   }
 
   create() {
     const { width, height } = this.scale;
-
+    this.earth = this.add.image(0, 0, 'back').setOrigin(0).setScale(8);
+    this.earth = this.add.image(width * 0.5, height * 0.5, 'earth');
     const particles = this.add.particles('smoke');
     this.ship = this.add.image(width * 0.5, height * 0.5, 'ship');
 

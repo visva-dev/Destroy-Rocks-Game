@@ -1,6 +1,14 @@
-.build
-build
-web_modules
-node_modules
+# System and IDE files
+Thumbs.db
 .DS_Store
-spaceshooter.zip
+.idea
+*.suo
+*.sublime-project
+*.sublime-workspace
+
+# Vendors
+node_modules/
+
+# Build
+dist/
+/npm-debug.log

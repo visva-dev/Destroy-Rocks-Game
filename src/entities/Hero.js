@@ -19,7 +19,55 @@ class Hero extends Phaser.GameObjects.Sprite {
     this.keys = scene.cursorKeys;
     this.input = {};
 
+    this.setupAnimations();
     this.setupMovement();
+  }
+
+  setupAnimations() {
+    this.animState = new StateMachine({
+      init: 'idle',
+      transitions: [
+        { name: 'idle', from: ['falling', 'running', 'pivoting'], to: 'idle' },
+        { name: 'run', from: ['falling', 'idle', 'pivoting'], to: 'running' },
+        { name: 'pivot', from: ['falling', 'running'], to: 'pivoting' },
+        { name: 'jump', from: ['idle', 'running', 'pivoting'], to: 'jumping' },
+        { name: 'flip', from: ['jumping', 'falling'], to: 'flipping' },
+        { name: 'fall', from: '*', to: 'falling' },
+      ],
+      methods: {
+        onEnterState: (lifecycle) => {
+          this.anims.play('hero-' + lifecycle.to);
+          console.log(lifecycle);
+        },
+      },
+    });
+
+    this.animPredicates = {
+      idle: () => {
+        return this.body.onFloor() && this.body.velocity.x === 0;
+      },
+      run: () => {
+        return (
+          this.body.onFloor() &&
+          Math.sign(this.body.velocity.x) === (this.flipX ? -1 : 1)
+        );
+      },
+      pivot: () => {
+        return (
+          this.body.onFloor() &&
+          Math.sign(this.body.velocity.x) === (this.flipX ? 1 : -1)
+        );
+      },
+      jump: () => {
+        return this.body.velocity.y < 0;
+      },
+      flip: () => {
+        return this.body.velocity.y < 0 && this.moveState.is('flipping');
+      },
+      fall: () => {
+        return this.body.velocity.y > 0;
+      },
+    };
   }
 
   setupMovement() {
@@ -36,9 +84,6 @@ class Hero extends Phaser.GameObjects.Sprite {
         },
       ],
       methods: {
-        onEnterState: (lifecycle) => {
-          console.log(lifecycle);
-        },
         onJump: () => {
           this.body.setVelocityY(-400);
         },
@@ -90,6 +135,13 @@ class Hero extends Phaser.GameObjects.Sprite {
     for (const t of this.moveState.transitions()) {
       if (t in this.movePredicates && this.movePredicates[t]()) {
         this.moveState[t]();
+        break;
+      }
+    }
+
+    for (const t of this.animState.transitions()) {
+      if (t in this.animPredicates && this.animPredicates[t]()) {
+        this.animState[t]();
         break;
       }
     }

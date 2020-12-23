@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Hero from '../entities/Hero';
 
 class Game extends Phaser.Scene {
   constructor() {
@@ -20,9 +21,7 @@ class Game extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
-    // this.add.image(400, 300, 'logo');
-    this.player = this.add.sprite(400, 300, 'hero-run-sheet');
-    this.player.anims.play('hero-running');
+    this.hero = new Hero(this, 250, 160);
   }
 
   update(time, delta) {}

@@ -1,14 +1,16 @@
-# System and IDE files
-Thumbs.db
-.DS_Store
-.idea
-*.suo
-*.sublime-project
-*.sublime-workspace
-
-# Vendors
+# dependencies
 node_modules/
 
-# Build
+# build
 dist/
-/npm-debug.log
+
+# misc
+.DS_Store
+.env/
+.cache/
+.vscode/
+.idea
+
+# Logs
+*.log
+npm-debug.log*

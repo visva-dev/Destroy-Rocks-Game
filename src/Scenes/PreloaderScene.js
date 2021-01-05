@@ -86,7 +86,31 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('phaserLogo', 'assets/logo.png');
     this.load.image('box', 'assets/ui/grey_box.png');
     this.load.image('checkedBox', 'assets/ui/blue_boxCheckmark.png');
-    this.load.audio('bgMusic', ['assets/TownTheme.mp3']);
+    this.load.audio('bgMusic', ['assets/sounds/TownTheme.mp3']);
+
+    this.load.spritesheet('sprExplosion', 'assets/ui/sprExplosion.png', {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('sprEnemy0', 'assets/ui/sprEnemy0.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.image('sprEnemy1', 'assets/ui/sprEnemy1.png');
+    this.load.spritesheet('sprEnemy2', 'assets/ui/sprEnemy2.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.image('sprLaserEnemy0', 'assets/ui/sprLaserEnemy0.png');
+    this.load.image('sprLaserPlayer', 'assets/ui/sprLaserPlayer.png');
+    this.load.spritesheet('sprPlayer', 'assets/ui/sprPlayer.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.audio('sndExplode0', 'assets/sounds/sndExplode0.wav');
+    this.load.audio('sndExplode1', 'assets/sounds/sndExplode1.wav');
+    this.load.audio('sndLaser', 'assets/sounds/sndLaser.wav');
   }
 
   ready() {

@@ -1,4 +1,4 @@
-import 'phaser';
+import * as Phaser from 'phaser';
 import config from '../Config/config';
 import Button from '../Objects/Button';
 
@@ -29,14 +29,15 @@ export default class TitleScene extends Phaser.Scene {
   centerButton(gameObject, offset = 0) {
     Phaser.Display.Align.In.Center(
       gameObject,
-      this.add.zone(config.width / 2, config.height / 2 - offset * 100, config.width, config.height),
+      this.add.zone(config.width / 2, config.height / 2 - offset * 100,
+        config.width, config.height),
     );
   }
 
-  centerButtonText(gameText, gameButton) {
+  centerButtonText() {
     Phaser.Display.Align.In.Center(
-      gameText,
-      gameButton,
+      this.gameText,
+      this.gameButton,
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'phaser';
+import * as Phaser from 'phaser';
 
 export default {
   type: Phaser.AUTO,

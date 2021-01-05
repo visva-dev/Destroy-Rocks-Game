@@ -1,4 +1,5 @@
-import 'phaser';
+/* eslint-disable no-unused-expressions */
+import * as Phaser from 'phaser';
 import config from '../Config/config';
 
 export default class CreditsScene extends Phaser.Scene {

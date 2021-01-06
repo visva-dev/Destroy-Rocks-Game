@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import * as Phaser from 'phaser';
 import ScrollingBackground from '../Objects/ScrollingBackground';
 import Player from '../Objects/Player';
@@ -119,29 +120,21 @@ export default class GameScene extends Phaser.Scene {
       },
     );
 
-    this.physics.add.overlap(
-      this.player,
-      this.enemies,
-      (player, enemy) => {
-        if (!player.getData('isDead') && !enemy.getData('isDead')) {
-          player.explode(false);
-          player.onDestroy();
-          enemy.explode(true);
-        }
-      },
-    );
+    this.physics.add.overlap(this.player, this.enemies, (player, enemy) => {
+      if (!player.getData('isDead') && !enemy.getData('isDead')) {
+        player.explode(false);
+        player.onDestroy();
+        enemy.explode(true);
+      }
+    });
 
-    this.physics.add.overlap(
-      this.player,
-      this.enemyLasers,
-      (player, laser) => {
-        if (!player.getData('isDead') && !laser.getData('isDead')) {
-          player.explode(false);
-          player.onDestroy();
-          laser.destroy();
-        }
-      },
-    );
+    this.physics.add.overlap(this.player, this.enemyLasers, (player, laser) => {
+      if (!player.getData('isDead') && !laser.getData('isDead')) {
+        player.explode(false);
+        player.onDestroy();
+        laser.destroy();
+      }
+    });
   }
 
   getEnemiesByType(type) {
@@ -180,7 +173,7 @@ export default class GameScene extends Phaser.Scene {
       }
     }
 
-    for (var i = 0; i < this.enemies.getChildren().length; i++) {
+    for (let i = 0; i < this.enemies.getChildren().length; i++) {
       const enemy = this.enemies.getChildren()[i];
 
       enemy.update();
@@ -200,8 +193,8 @@ export default class GameScene extends Phaser.Scene {
       }
     }
 
-    for (var i = 0; i < this.enemyLasers.getChildren().length; i++) {
-      var laser = this.enemyLasers.getChildren()[i];
+    for (let i = 0; i < this.enemyLasers.getChildren().length; i++) {
+      const laser = this.enemyLasers.getChildren()[i];
       laser.update();
       if (
         laser.x < -laser.displayWidth
@@ -215,8 +208,8 @@ export default class GameScene extends Phaser.Scene {
       }
     }
 
-    for (var i = 0; i < this.playerLasers.getChildren().length; i++) {
-      var laser = this.playerLasers.getChildren()[i];
+    for (let i = 0; i < this.playerLasers.getChildren().length; i++) {
+      const laser = this.playerLasers.getChildren()[i];
       laser.update();
       if (
         laser.x < -laser.displayWidth
@@ -230,7 +223,7 @@ export default class GameScene extends Phaser.Scene {
       }
     }
 
-    for (var i = 0; i < this.backgrounds.length; i++) {
+    for (let i = 0; i < this.backgrounds.length; i++) {
       this.backgrounds[i].update();
     }
   }

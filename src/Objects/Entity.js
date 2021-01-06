@@ -1,6 +1,7 @@
+/* eslint-disable no-plusplus */
 import * as Phaser from 'phaser';
 
-class Entity extends Phaser.GameObjects.Sprite {
+export default class Entity extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, key, type) {
     super(scene, x, y, key);
 
@@ -44,7 +45,7 @@ class Entity extends Phaser.GameObjects.Sprite {
 
   update() {
     if (this.layers.getChildren()[0].y > 0) {
-      for (let i = 0; i < this.layers.getChildren().length; i+=) {
+      for (let i = 0; i < this.layers.getChildren().length; i++) {
         const layer = this.layers.getChildren()[i];
         layer.y = -layer.displayHeight + layer.displayHeight * i;
       }

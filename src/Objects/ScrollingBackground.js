@@ -1,4 +1,6 @@
-class ScrollingBackground {
+import * as Phaser from 'phaser';
+
+export default class ScrollingBackground {
   constructor(scene, key, velocityY) {
     this.scene = scene;
     this.key = key;
@@ -10,6 +12,7 @@ class ScrollingBackground {
   }
 
   createLayers() {
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < 2; i++) {
       const layer = this.scene.add.sprite(0, 0, this.key);
       layer.y = layer.displayHeight * i;

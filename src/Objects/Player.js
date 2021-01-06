@@ -1,4 +1,8 @@
-class Player extends Entity {
+import * as Phaser from 'phaser';
+import Entity from './Entity';
+import PlayerLaser from './PlayerLaser';
+
+export default class Player extends Entity {
   constructor(scene, x, y, key) {
     super(scene, x, y, key, 'Player');
 

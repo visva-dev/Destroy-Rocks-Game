@@ -1,4 +1,7 @@
-class ChaserShip extends Entity {
+import * as Phaser from 'phaser';
+import Entity from './Entity';
+
+export default class ChaserShip extends Entity {
   constructor(scene, x, y) {
     super(scene, x, y, 'sprEnemy1', 'ChaserShip');
 
@@ -24,7 +27,7 @@ class ChaserShip extends Entity {
         this.state = this.states.CHASE;
       }
 
-      if (this.state == this.states.CHASE) {
+      if (this.state === this.states.CHASE) {
         const dx = this.scene.player.x - this.x;
         const dy = this.scene.player.y - this.y;
 

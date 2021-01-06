@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import * as Phaser from 'phaser';
 
 export default class ScrollingBackground {
@@ -12,7 +13,6 @@ export default class ScrollingBackground {
   }
 
   createLayers() {
-    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < 2; i++) {
       const layer = this.scene.add.sprite(0, 0, this.key);
       layer.y = layer.displayHeight * i;
@@ -24,6 +24,15 @@ export default class ScrollingBackground {
       layer.body.velocity.y = this.velocityY;
 
       this.layers.add(layer);
+    }
+  }
+
+  update() {
+    if (this.layers.getChildren()[0].y > 0) {
+      for (let i = 0; i < this.layers.getChildren().length; i++) {
+        const layer = this.layers.getChildren()[i];
+        layer.y = -layer.displayHeight + layer.displayHeight * i;
+      }
     }
   }
 }

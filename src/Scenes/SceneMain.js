@@ -6,9 +6,35 @@ import GunShip from '../Objects/GunShip';
 import ChaserShip from '../Objects/ChaserShip';
 import CarrierShip from '../Objects/CarrierShip';
 
-export default class GameScene extends Phaser.Scene {
+export default class SceneMain extends Phaser.Scene {
   constructor() {
-    super('Game');
+    super({ key: 'SceneMain' });
+  }
+
+  preload() {
+    this.load.spritesheet('sprExplosion', './assets/ui/sprExplosion.png', {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('sprEnemy0', './assets/ui/sprEnemy0.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.image('sprEnemy1', './assets/ui/sprEnemy1.png');
+    this.load.spritesheet('sprEnemy2', './assets/ui/sprEnemy2.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+    this.load.image('sprLaserEnemy0', './assets/ui/sprLaserEnemy0.png');
+    this.load.image('sprLaserPlayer', './assets/ui/sprLaserPlayer.png');
+    this.load.spritesheet('sprPlayer', './assets/ui/sprPlayer.png', {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.audio('sndExplode0', './assets/sounds/sndExplode0.wav');
+    this.load.audio('sndExplode1', './assets/sounds/sndExplode1.wav');
+    this.load.audio('sndLaser', '../assets/sounds/sndLaser.wav');
   }
 
   create() {
@@ -57,6 +83,7 @@ export default class GameScene extends Phaser.Scene {
       this.game.config.height * 0.5,
       'sprPlayer',
     );
+    console.log(this.player);
 
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -74,7 +101,6 @@ export default class GameScene extends Phaser.Scene {
       delay: 1000,
       callback() {
         let enemy = null;
-
         if (Phaser.Math.Between(0, 10) >= 3) {
           enemy = new GunShip(
             this,
@@ -120,21 +146,29 @@ export default class GameScene extends Phaser.Scene {
       },
     );
 
-    this.physics.add.overlap(this.player, this.enemies, (player, enemy) => {
-      if (!player.getData('isDead') && !enemy.getData('isDead')) {
-        player.explode(false);
-        player.onDestroy();
-        enemy.explode(true);
-      }
-    });
+    this.physics.add.overlap(
+      this.player,
+      this.enemies,
+      (player, enemy) => {
+        if (!player.getData('isDead') && !enemy.getData('isDead')) {
+          player.explode(false);
+          player.onDestroy();
+          enemy.explode(true);
+        }
+      },
+    );
 
-    this.physics.add.overlap(this.player, this.enemyLasers, (player, laser) => {
-      if (!player.getData('isDead') && !laser.getData('isDead')) {
-        player.explode(false);
-        player.onDestroy();
-        laser.destroy();
-      }
-    });
+    this.physics.add.overlap(
+      this.player,
+      this.enemyLasers,
+      (player, laser) => {
+        if (!player.getData('isDead') && !laser.getData('isDead')) {
+          player.explode(false);
+          player.onDestroy();
+          laser.destroy();
+        }
+      },
+    );
   }
 
   getEnemiesByType(type) {

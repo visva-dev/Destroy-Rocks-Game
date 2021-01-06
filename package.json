@@ -2,7 +2,7 @@
   "name": "shooter-game",
   "version": "1.0.0",
   "description": "A Phaser 3 Game project",
-  "main": "src/index.js",
+  "main": "src/Config/config.js",
   "scripts": {
     "build": "webpack",
     "start": "npm run build && webpack-dev-server --port=8000",

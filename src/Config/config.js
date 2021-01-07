@@ -22,7 +22,7 @@ const config = {
 class Game extends Phaser.Game {
   constructor() {
     super(config);
-    this.scene.start('SceneMain');
+    this.scene.start('Entity');
   }
 }
 

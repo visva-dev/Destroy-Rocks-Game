@@ -1,5 +1,6 @@
 /* eslint-disable no-plusplus */
 import * as Phaser from 'phaser';
+import STYLE from '../styles/style';
 import ScrollingBackground from '../Objects/ScrollingBackground';
 import Player from '../Objects/Player';
 import GunShip from '../Objects/GunShip';
@@ -83,7 +84,6 @@ export default class SceneMain extends Phaser.Scene {
       this.game.config.height * 0.5,
       'sprPlayer',
     );
-    console.log(this.player);
 
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -169,6 +169,18 @@ export default class SceneMain extends Phaser.Scene {
         }
       },
     );
+
+    this.scoreText = this.add.text(16, 16, '0', {
+      fontFamily: 'monospace',
+      fontSize: STYLE.fonts.big,
+      fontStyle: 'bold',
+      color: STYLE.colors.white,
+      align: 'left',
+      stroke: STYLE.colors.purple,
+      strokeThickness: 2,
+    });
+    this.scoreText.setDepth(10);
+    this.scoreReset();
   }
 
   getEnemiesByType(type) {

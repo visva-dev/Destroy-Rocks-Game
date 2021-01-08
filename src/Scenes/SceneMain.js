@@ -140,6 +140,7 @@ export default class SceneMain extends Phaser.Scene {
           if (enemy.onDestroy !== undefined) {
             enemy.onDestroy();
           }
+          this.scoreAdd();
           enemy.explode(true);
           playerLaser.destroy();
         }
@@ -192,6 +193,28 @@ export default class SceneMain extends Phaser.Scene {
       }
     }
     return arr;
+  }
+
+  scoreAdd(value = 1) {
+    window.global.score += value;
+    this.scoreText.setText(window.global.score);
+    this.tweens.add({
+      targets: this.scoreText,
+      scaleX: 1.3,
+      scaleY: 1.3,
+      yoyo: true,
+      duration: 60,
+      repeat: 0,
+      onComplete: () => {
+        this.scoreText.scaleX = 1;
+        this.scoreText.scaleY = this.scoreText.scaleX;
+      },
+    });
+  }
+
+  scoreReset() {
+    window.global.score = 0;
+    this.scoreText.setText(window.global.score);
   }
 
   update() {

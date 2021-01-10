@@ -1,11 +1,18 @@
-/* eslint-disable no-plusplus */
-import * as Phaser from 'phaser';
+import Phaser from 'phaser';
 import STYLE from '../styles/style';
 import ScrollingBackground from '../Objects/ScrollingBackground';
 
-export default class SceneMainMenu extends Phaser.Scene {
+class SceneMainMenu extends Phaser.Scene {
   constructor() {
-    super({ key: 'SceneMainMenu' });
+    super({
+      key: 'SceneMainMenu',
+    });
+  }
+
+  init() {
+    window.global.width = this.game.config.width;
+    window.global.height = this.game.config.height;
+    window.emitter = new Phaser.Events.EventEmitter();
   }
 
   preload() {
@@ -43,17 +50,24 @@ export default class SceneMainMenu extends Phaser.Scene {
       loadingText.destroy();
     });
 
-    this.load.image('sprBg0', 'assets/ui/sprBg0.png');
-    this.load.image('sprBg1', 'assets/ui/sprBg1.png');
     this.load.image('sprBtnPlay', 'assets/ui/sprBtnPlay.png');
     this.load.image('sprBtnPlayHover', 'assets/ui/sprBtnPlayHover.png');
     this.load.image('sprBtnPlayDown', 'assets/ui/sprBtnPlayDown.png');
     this.load.image('sprBtnRestart', 'assets/ui/sprBtnRestart.png');
     this.load.image('sprBtnRestartHover', 'assets/ui/sprBtnRestartHover.png');
     this.load.image('sprBtnRestartDown', 'assets/ui/sprBtnRestartDown.png');
+    this.load.image('sprBg0', 'assets/ui/sprBg0.png');
+    this.load.image('sprBg1', 'assets/ui/sprBg1.png');
+
     this.load.audio('sndBtnOver', 'assets/sounds/sndBtnOver.wav');
     this.load.audio('sndBtnDown', 'assets/sounds/sndBtnDown.wav');
-    this.load.audio('bgm', ['assets/audio/bgm_bit.mp3', 'assets/sounds/bgm_bit.ogg']);
+
+    this.load.audio('sndExplode0', 'assets/sounds/sndExplode0.wav');
+    this.load.audio('sndExplode1', 'assets/sounds/sndExplode1.wav');
+    this.load.audio('sndLaser', 'assets/sounds/sndLaser.wav');
+    this.load.audio('sndLaser0', ['assets/sounds/sndLaser0.mp3', 'assets/sounds/sndLaser0.ogg']);
+
+    this.load.audio('bgm', ['assets/sounds/bgm_bit.mp3', 'assets/sounds/bgm_bit.ogg']);
   }
 
   create() {
@@ -71,58 +85,25 @@ export default class SceneMainMenu extends Phaser.Scene {
       btnOver: this.sound.add('sndBtnOver'),
       btnDown: this.sound.add('sndBtnDown'),
     };
-
     this.btnPlay = this.add.sprite(
-      this.game.config.width * 0.5,
-      this.game.config.height * 0.5,
+      window.global.width / 2,
+      (window.global.height / 2) + 100,
       'sprBtnPlay',
     );
-
     this.btnPlay.setInteractive();
-
-    this.btnPlay.on(
-      'pointerover',
-      function () {
-        this.btnPlay.setTexture('sprBtnPlayHover');
-        this.sfx.btnOver.play();
-      },
-      this,
-    );
-
-    this.btnPlay.on('pointerout', function () {
-      this.setTexture('sprBtnPlay');
+    this.btnPlay.on('pointerover', this.onHover.bind(this));
+    this.btnPlay.on('pointerout', this.onOut.bind(this));
+    this.btnPlay.on('pointerdown', this.onClick.bind(this));
+    this.btnPlay.on('pointerup', () => {
+      this.btnPlay.setTexture('sprBtnPlayHover');
     });
-
-    this.btnPlay.on(
-      'pointerdown',
-      function () {
-        this.btnPlay.setTexture('sprBtnPlayDown');
-        this.sfx.btnDown.play();
-      },
-      this,
-    );
-
-    this.btnPlay.on(
-      'pointerup',
-      function () {
-        this.btnPlay.setTexture('sprBtnPlay');
-        this.scene.start('SceneMain');
-      },
-      this,
-    );
-
-    this.title = this.add.text(
-      this.game.config.width * 0.5,
-      128,
-      'SPACE SHOOTER',
-      {
-        fontFamily: 'monospace',
-        fontSize: 48,
-        fontStyle: 'bold',
-        color: '#ffffff',
-        align: 'center',
-      },
-    );
+    this.title = this.add.text(window.global.width * 0.5, 128, 'SPACESHOOTER', {
+      fontFamily: 'monospace',
+      fontSize: STYLE.fonts.title,
+      fontStyle: 'bold',
+      color: STYLE.colors.white,
+      align: 'center',
+    });
     this.title.setOrigin(0.5);
 
     const printText = this.add.text(240, 240, '', {
@@ -153,7 +134,7 @@ export default class SceneMainMenu extends Phaser.Scene {
     });
 
     this.backgrounds = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i += 1) {
       const keys = ['sprBg0', 'sprBg1'];
       const key = keys[Phaser.Math.Between(0, keys.length - 1)];
       const bg = new ScrollingBackground(this, key, i * 10);
@@ -161,9 +142,32 @@ export default class SceneMainMenu extends Phaser.Scene {
     }
   }
 
+  onClick() {
+    this.btnPlay.setTexture('sprBtnPlayDown');
+    this.sfx.btnDown.play();
+    this.time.addEvent({
+      delay: 90,
+      callback: () => {
+        this.scene.start('SceneMain');
+      },
+      loop: false,
+    });
+  }
+
+  onOut() {
+    this.btnPlay.setTexture('sprBtnPlay');
+  }
+
+  onHover() {
+    this.btnPlay.setTexture('sprBtnPlayHover');
+    this.sfx.btnOver.play();
+  }
+
   update() {
-    for (let i = 0; i < this.backgrounds.length; i++) {
+    for (let i = 0; i < this.backgrounds.length; i += 1) {
       this.backgrounds[i].update();
     }
   }
 }
+
+export default SceneMainMenu;

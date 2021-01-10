@@ -1,51 +1,50 @@
-import * as Phaser from 'phaser';
+import Phaser from 'phaser';
 import InputTextPlugin from 'phaser3-rex-plugins/plugins/inputtext-plugin';
 import SceneMain from '../Scenes/SceneMain';
 import SceneMainMenu from '../Scenes/SceneMainMenu';
 import SceneGameOver from '../Scenes/SceneGameOver';
 
+// eslint-disable-next-line no-unused-vars
+let game;
+const scenes = [];
 const seedRand = Date.now();
-
-const config = {
-  type: Phaser.WEBGL,
-  width: 480,
-  height: 640,
-  backgroundColor: 'black',
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: { x: 0, y: 0 },
-    },
-  },
-  scene: [SceneMainMenu, SceneMain, SceneGameOver],
-  pixelArt: true,
-  roundPixels: true,
-  dom: {
-    createContainer: true,
-  },
-  seed: [seedRand],
-  plugins: {
-    global: [{
-      key: 'rexInputTextPlugin',
-      plugin: InputTextPlugin,
-      start: true,
-    }],
-  },
-};
-
-class Game extends Phaser.Game {
-  constructor() {
-    super(config);
-    this.scene.start('SceneMainMenu');
-  }
-}
+scenes.push(SceneMainMenu);
+scenes.push(SceneMain);
+scenes.push(SceneGameOver);
 
 window.onload = () => {
-  window.game = new Game();
+  const config = {
+    type: Phaser.AUTO,
+    parent: 'phaser-game',
+    width: 480,
+    height: 640,
+    backgroundColor: 'black',
+    pixelArt: true,
+    dom: {
+      createContainer: true,
+    },
+    seed: [seedRand],
+    plugins: {
+      global: [{
+        key: 'rexInputTextPlugin',
+        plugin: InputTextPlugin,
+        start: true,
+      }],
+    },
+    physics: {
+      default: 'arcade',
+      arcade: {
+        gravity: { x: 0, y: 0 },
+        debug: false,
+      },
+    },
+    scene: scenes,
+  };
+  window.game = new Phaser.Game(config);
 };
 
 window.global = {
-  signature: 'Made by Visvaldas Rapalis',
+  signature: 'Made with Love by Abubakar Diallo',
   score: 0,
   emitter: null,
 };

@@ -1,6 +1,6 @@
 class LeaderBoard {
   constructor() {
-    this.Id = 'e2DIvMqGk9vJA1MU7QhY';
+    this.Id = 'd4R8GfuhT8Bv45Eq3aU5';
   }
 
   getLeaderBoard() {

@@ -44,7 +44,7 @@ window.onload = () => {
 };
 
 window.global = {
-  signature: 'Made with Love by Abubakar Diallo',
+  signature: 'Made by Visvaldas Rapalis',
   score: 0,
   emitter: null,
 };

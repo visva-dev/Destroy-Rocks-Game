@@ -3,9 +3,7 @@ import * as Phaser from 'phaser';
 import STYLE from '../styles/style';
 import ScrollingBackground from '../Objects/ScrollingBackground';
 import Player from '../Objects/Player';
-import GunShip from '../Objects/GunShip';
 import ChaserShip from '../Objects/ChaserShip';
-import CarrierShip from '../Objects/CarrierShip';
 
 export default class SceneMain extends Phaser.Scene {
   constructor() {
@@ -13,49 +11,32 @@ export default class SceneMain extends Phaser.Scene {
   }
 
   preload() {
-    this.load.spritesheet('sprExplosion', './assets/ui/sprExplosion.png', {
-      frameWidth: 32,
-      frameHeight: 32,
+    this.load.spritesheet('sprExplosion', './assets/ui/exp.png', {
+      frameWidth: 64,
+      frameHeight: 64,
     });
-    this.load.spritesheet('sprEnemy0', './assets/ui/sprEnemy0.png', {
-      frameWidth: 16,
-      frameHeight: 16,
+    this.load.spritesheet('sprEnemy1', 'assets/ui/rocks.png', {
+      frameWidth: 50,
+      frameHeight: 35,
     });
-    this.load.image('sprEnemy1', './assets/ui/sprEnemy1.png');
-    this.load.spritesheet('sprEnemy2', './assets/ui/sprEnemy2.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-    this.load.image('sprLaserEnemy0', './assets/ui/sprLaserEnemy0.png');
     this.load.image('sprLaserPlayer', './assets/ui/sprLaserPlayer.png');
-    this.load.spritesheet('sprPlayer', './assets/ui/sprPlayer.png', {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
+    this.load.image('sprPlayer', './assets/ui/playerShip2_red.png');
 
-    this.load.audio('sndExplode0', './assets/sounds/sndExplode0.wav');
-    this.load.audio('sndExplode1', './assets/sounds/sndExplode1.wav');
-    this.load.audio('sndLaser', '../assets/sounds/sndLaser.wav');
+    this.load.audio('sndExplode0', './assets/sounds/explode.wav');
+    this.load.audio('sndExplode1', './assets/sounds/explode.wav');
+    this.load.audio('sndLaser', '../assets/sounds/laser.wav');
   }
 
   create() {
-    this.anims.create({
-      key: 'sprEnemy0',
-      frames: this.anims.generateFrameNumbers('sprEnemy0'),
-      frameRate: 20,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: 'sprEnemy2',
-      frames: this.anims.generateFrameNumbers('sprEnemy2'),
-      frameRate: 20,
-      repeat: -1,
-    });
+    const frameNames = this.anims.generateFrameNumbers('sprExplosion');
+    const f2 = frameNames.slice();
+    f2.reverse();
+    const f3 = f2.concat(frameNames);
     this.anims.create({
       key: 'sprExplosion',
-      frames: this.anims.generateFrameNumbers('sprExplosion'),
-      frameRate: 20,
-      repeat: 0,
+      frames: f3,
+      frameRate: 48,
+      repeat: false,
     });
     this.anims.create({
       key: 'sprPlayer',
@@ -101,26 +82,14 @@ export default class SceneMain extends Phaser.Scene {
       delay: 1000,
       callback() {
         let enemy = null;
-        if (Phaser.Math.Between(0, 10) >= 3) {
-          enemy = new GunShip(
-            this,
-            Phaser.Math.Between(0, this.game.config.width),
-            0,
-          );
-        } else if (Phaser.Math.Between(0, 10) >= 5) {
-          if (this.getEnemiesByType('ChaserShip').length < 5) {
+        if (Phaser.Math.Between(0, 150) >= 5) {
+          if (this.getEnemiesByType('ChaserShip').length < 10) {
             enemy = new ChaserShip(
               this,
               Phaser.Math.Between(0, this.game.config.width),
               0,
             );
           }
-        } else {
-          enemy = new CarrierShip(
-            this,
-            Phaser.Math.Between(0, this.game.config.width),
-            0,
-          );
         }
 
         if (enemy !== null) {
@@ -159,20 +128,8 @@ export default class SceneMain extends Phaser.Scene {
       },
     );
 
-    this.physics.add.overlap(
-      this.player,
-      this.enemyLasers,
-      (player, laser) => {
-        if (!player.getData('isDead') && !laser.getData('isDead')) {
-          player.explode(false);
-          player.onDestroy();
-          laser.destroy();
-        }
-      },
-    );
-
     this.scoreText = this.add.text(16, 16, '0', {
-      fontFamily: 'monospace',
+      fontFamily: 'times',
       fontSize: STYLE.fonts.big,
       fontStyle: 'bold',
       color: STYLE.colors.white,
@@ -258,21 +215,6 @@ export default class SceneMain extends Phaser.Scene {
             enemy.onDestroy();
           }
           enemy.destroy();
-        }
-      }
-    }
-
-    for (let i = 0; i < this.enemyLasers.getChildren().length; i++) {
-      const laser = this.enemyLasers.getChildren()[i];
-      laser.update();
-      if (
-        laser.x < -laser.displayWidth
-        || laser.x > this.game.config.width + laser.displayWidth
-        || laser.y < -laser.displayHeight * 4
-        || laser.y > this.game.config.height + laser.displayHeight
-      ) {
-        if (laser) {
-          laser.destroy();
         }
       }
     }

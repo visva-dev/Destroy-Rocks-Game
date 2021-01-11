@@ -1,117 +1,101 @@
-![phaser3-snowpack-header](https://user-images.githubusercontent.com/2236153/92626686-7c693d80-f287-11ea-91a1-d54d64be38e4.png)
+# Shooter Game
 
-# Phaser 3 + Snowpack Template
-> Modern and fast build tool for making games with Phaser 3 and modern JavaScript
+JavaScript, Phaser 3 project, the goal of this project was to build a space shooter game that can be played on the browser and stores your score on an online server
 
-![License](https://img.shields.io/badge/license-MIT-green)
+## Play the game
+[Link](https://rawcdn.githack.com/visva-dev/Shooter-Game/b8b3964a3785dcd56a5cf9b12fba6497ac6430bc/index.html)
 
-## Prerequisites
+## Built with:
 
-You'll need [Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) installed.
-
-It is highly recommended to use [Node Version Manager](https://github.com/nvm-sh/nvm) (nvm) to install Node.js and npm.
-
-For Windows users there is [Node Version Manager for Windows](https://github.com/coreybutler/nvm-windows).
-
-Install Node.js and `npm` with `nvm`:
-
-```bash
-nvm install node
-
-nvm use node
-```
-
-Replace 'node' with 'latest' for `nvm-windows`.
+*   HTML 
+*   Phaser3
+*   Webpack
+*   Javascript
+*   Eslint
+*   Babel
+*   Jest
+*   [Netlify](https://www.netlify.com/) for deployment
+*   [Leaderboard API service](https://www.notion.so/Leaderboard-API-service-24c0c3c116974ac49488d4eb0267ade3) for high scores
 
 ## Getting Started
 
-Clone this repository to your local machine:
-
-```bash
-git clone https://github.com/ourcade/phaser3-snowpack-template.git
+>Clone the repository
 ```
-
-This will create a folder named `phaser3-snowpack-template`. You can specify a different folder name like this:
-
-```bash
-git clone https://github.com/ourcade/phaser3-snowpack-template.git my-folder-name
+- git clone https://github.com/visva-dev/Shooter-Game.git;
+- cd Shooter-Game/
 ```
-
-Go into your new project folder and install dependencies:
-
-```bash
-cd phaser3-snowpack-template # or 'my-folder-name'
+>Install the dependencies
+```
 npm install
 ```
-
-Start development server:
-
+>Start the server
 ```
-npm run start
+npm start
 ```
+> Open up your browser and navigate to http://localhost:8080/ and start the game
 
-To create a production build:
-
+>To run the unit tests
 ```
-npm run build
+npm run test
 ```
+## How to Play
++ MOVE UP: Press [W] key
++ MOVE DOWN: Press [S] key
++ MOVE LEFT: Press [A] key
++ MOVE RIGHT: Press [D] key
++ SHOOT LASER: Press [SPACEBAR] key
 
-Production files will be placed in the `build` folder. Then upload those files to a web server. 🎉
+## About the game
+The player needs to destroy the rocks and avoid them at the same time,
+By destroying the rocks player acquiring points. 
+The goal is to acquire as many points as you can and become the best on the leaderboard.
 
-## Project Structure
+## Screenshots
+![screenshot](./assets/image1.png)<br>
+![screenshot](./assets/image2.png)<br>
+![screenshot](./assets/image3.png)
 
-```
-    .
-    ├── build
-    ├── node_modules
-    ├── public
-	│   ├── index.html
-    ├── src
-    │   ├── scenes
-    │   │   ├── HelloWorldScene.js
-    │   ├── main.js
-    ├── package.json
-```
+### Game Design & Development
+- In order to get started with the game, I had to start by going through a tutorial on how to use Phaser [here](http://phaser.io/tutorials/making-your-first-phaser-3-game). This alongside the phaser documentation and examples provided the basic knowledge.
+#### Design
+- Next up, I came up with a concept theme to work with and the storyline for the flow of the game. This includes the scene background and sprites for the character and the sound effects to be used. The storyline controlled the spawing of the enemies at different set times. Different capabilities for the player and enemies were proposed for implementation.
 
-The contents of this template is the basic [Phaser3 getting started example](http://phaser.io/tutorials/getting-started-phaser3/part5).
+#### Assets
+- With the game design in mind, I went to opengameart to find the right assets that would bring my game to life. 
 
-This template assumes you will want to organize your code into multiple files and use modern JavaScript.
+#### Development
+- Now that everything that I needed was in my asset folder, I proceeded to plan how the game would come together with the different characters. First I set up the player character, made him move and able to fire. Next came the enemy characters and their traits as well. A few extra features were left out for future development but the core requirements were met.
+Having implemented their core features, I went on to add more scenes for navigating the game and then wrote some tests to ensure things were working as they should.
+- The last thing was separating the code into modules for readability and easier maintenance.
 
-JavaScript files are intended for the `src` folder. `main.js` is the entry point referenced by `index.html`.
+## Author
 
-Other than that there is no opinion on how you should structure your project. There is a `scenes` folder in `src` where the `HelloWorldScene.js` lives but you can do whatever you want.
+👤 **Visvaldas Rapalis**
 
-## Static Assets
+- Github: [@visva-dev](https://github.com/visva-dev)
+- Twitter: [@Visva_Dev](https://twitter.com/Visva_Dev)
+- Linkedin: [@Visvaldas-Rapalis](https://www.linkedin.com/in/visvaldas-rapalis/)
+- Website: [good-developer.com](https://good-developer.com)
 
-Any static assets like images or audio files should be placed in the `public` folder. It'll then be served at http://localhost:8000/images/my-image.png
+## 🤝 Contributing
 
-Example `public` structure:
+Contributions, issues and feature requests are welcome!
 
-```
-    public
-    ├── images
-    │   ├── my-image.png
-    ├── music
-    │   ├── ...
-    ├── sfx
-    │   ├── ...
-```
+Feel free to check the [issues page](https://github.com/paulzay/shooter/issues)
 
-They can then be loaded by Phaser with `this.image.load('my-image', 'images/my-image.png')`.
+## Future features
+- More scenes and stages
+- Power-ups
+- Different player characters to choose from
 
-# ESLint
+## Show your support
 
-This template uses a basic `eslint` set up for code linting to help you find and fix common problems in your JavaScript code.
+Give a ⭐️ if you like this project!
 
-It does not aim to be opinionated.
+## Acknowledgments
 
-[See here for rules to turn on or off](https://eslint.org/docs/rules/).
+- All the resources used are open source and can be found on [gameart](https://gameart.org/)
 
+## 📝 License
 
-## Dev Server Port
-
-You can change the dev server's port number by modifying the `snowpack.config.json` file under `devOptions.port`.
-
-## License
-
-[MIT License](https://github.com/ourcade/phaser3-snowpack-template/blob/master/LICENSE)
+This project is free to use as learning purposes. For any external content (e.g. logo, images, ...), please contact the proper author and check their license of use.

@@ -37,7 +37,7 @@ class SceneGameOver extends Phaser.Scene {
         .slice(0, 5)
         .map((game, i) => {
           const text = `Player: ${game.user.toUpperCase()} | Score: ${game.score}`;
-          this.add.text(window.global.width * 0.5, (93 * (i + 1.1)), text).setOrigin(0.5);
+          this.add.text(window.global.width * 0.5, (73 * (i + 2.1)), text).setOrigin(0.5);
           return text;
         });
     });

@@ -16,8 +16,8 @@ window.onload = () => {
   const config = {
     type: Phaser.AUTO,
     parent: 'phaser-game',
-    width: 480,
-    height: 640,
+    width: window.innerWidth,
+    height: window.innerHeight,
     backgroundColor: 'black',
     pixelArt: true,
     dom: {

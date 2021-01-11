@@ -72,7 +72,7 @@ class SceneMainMenu extends Phaser.Scene {
   }
 
   create() {
-    this.add.text(40, this.game.config.height - 1,
+    this.add.text(750, this.game.config.height - 1,
       `Play Control\nMove: A (Left), D (Right), W (Up), S (Down)\n\nShoot: [Space]\n${window.global.signature}`)
       .setOrigin(0, 1.5);
 
@@ -119,14 +119,14 @@ class SceneMainMenu extends Phaser.Scene {
       color: STYLE.colors.white,
       borderBottom: `3px solid ${STYLE.colors.aqua}`,
     })
-      .setOrigin(0.5)
+      .setOrigin(-3.1)
       .on('textchange', () => {
         printText.text = inputText.text;
       });
 
     printText.text = inputText.text;
-    this.submitButton = this.add.sprite(240, 310, 'blueButton2').setInteractive();
-    this.submitButton = this.add.text(240, 310, 'Submit Name').setInteractive().setOrigin(0.5);
+    this.submitButton = this.add.sprite(960, 310, 'blueButton2').setInteractive();
+    this.submitButton = this.add.text(960, 310, 'Submit Name').setInteractive().setOrigin(0.5);
     this.submitButton.on('pointerdown', () => {
       if (printText.text.length > 0) {
         window.global.userName = printText.text;
@@ -135,7 +135,7 @@ class SceneMainMenu extends Phaser.Scene {
     });
 
     this.backgrounds = [];
-    for (let i = 0; i < 5; i += 1) {
+    for (let i = 0; i < 15; i += 1) {
       const keys = ['sprBg0', 'sprBg1'];
       const key = keys[Phaser.Math.Between(0, keys.length - 1)];
       const bg = new ScrollingBackground(this, key, i * 40);

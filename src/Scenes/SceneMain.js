@@ -54,8 +54,8 @@ export default class SceneMain extends Phaser.Scene {
     };
 
     this.backgrounds = [];
-    for (let i = 0; i < 5; i++) {
-      const bg = new ScrollingBackground(this, 'sprBg0', i * 10);
+    for (let i = 0; i < 15; i++) {
+      const bg = new ScrollingBackground(this, 'sprBg0', i * 40);
       this.backgrounds.push(bg);
     }
 
@@ -128,7 +128,7 @@ export default class SceneMain extends Phaser.Scene {
       },
     );
 
-    this.scoreText = this.add.text(16, 16, '0', {
+    this.scoreText = this.add.text(42, 42, '0', {
       fontFamily: 'times',
       fontSize: STYLE.fonts.big,
       fontStyle: 'bold',
